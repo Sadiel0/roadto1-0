@@ -47,3 +47,4 @@ npx expo start
 - No backend, no authentication
 - AI workout generation is currently using deterministic logic based on date
 - AI Assistant uses mock responses (marked with TODO for real AI integration)
+# roadto1-0
