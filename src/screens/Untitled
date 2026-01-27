@@ -1,0 +1,35 @@
+I need this app hosted on Expo servers using the current, supported EAS Update workflow. No tunnel mode. No deprecated commands.
+
+Do the following steps in order and stop only when EAS Update is working.
+	1.	Check the local Expo CLI version.
+	•	If the project is using an old global expo-cli, remove it.
+	•	Ensure the modern Expo CLI (expo) is installed and being used.
+	•	Confirm expo --version is 6.x or higher.
+	2.	Verify the project root.
+	•	Confirm package.json and app.json or app.config.ts exist.
+	•	Abort if not in the correct directory.
+	3.	Ensure the user is logged into Expo.
+	•	Run expo whoami.
+	•	If not logged in, prompt to log in with expo login.
+	4.	Install the OTA updates package.
+	•	Install expo-updates using npx expo install expo-updates.
+	5.	Configure Expo Updates correctly.
+	•	Open app.json or app.config.ts.
+	•	Ensure it includes:
+	•	a valid name
+	•	a valid slug
+	•	updates.fallbackToCacheTimeout = 0
+	•	runtimeVersion set to { policy: "sdkVersion" }
+	•	Do not remove existing valid config.
+	6.	Initialize EAS for the project.
+	•	Run npx expo prebuild --clean.
+	•	Allow generation of native folders and configuration.
+	7.	Verify EAS is enabled.
+	•	Run npx expo doctor.
+	•	Fix any blocking errors related to updates or configuration.
+	8.	Publish the app to Expo servers using the supported command.
+	•	Run npx expo update --message "Initial release".
+	9.	Confirm success.
+	•	Ensure an update ID is returned.
+	•	Confirm the project is now accessible via the Expo project URL.
+	•	Confirm it can be opened in Expo Go without the local dev server running.
