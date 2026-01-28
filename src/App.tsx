@@ -2,8 +2,9 @@ import React, { useMemo, useState } from "react";
 import { quotes } from "./utils/quotes";
 import { workouts } from "./workouts";
 import { getFightOfTheDay } from "./fightStudy/fights";
+import { getMindsetOfTheDay } from "./mindset/mindset";
 
-type TabId = "home" | "workout" | "study" | "progress";
+type TabId = "home" | "workout" | "study" | "mindset";
 
 const FIGHT_DATE = new Date(new Date().getFullYear(), 2, 7, 0, 0, 0, 0); // March 7
 
@@ -58,26 +59,26 @@ const HomeScreen: React.FC = () => {
   return (
     <div className="screen">
       <div>
-        <div className="title">THE ROAD TO 1-0</div>
+        <h1 className="title">THE ROAD TO 1-0</h1>
       </div>
 
       <div className="card">
         <div className="countdown-label">Countdown to battle</div>
         <div className="countdown-row">
           <div className="segment">
-            <span className="segment-value">{countdown.days}</span>
+            <span className="segment-value">{String(countdown.days).padStart(2, "0")}</span>
             <span className="segment-label">Days</span>
           </div>
           <div className="segment">
-            <span className="segment-value">{countdown.hours}</span>
+            <span className="segment-value">{String(countdown.hours).padStart(2, "0")}</span>
             <span className="segment-label">Hours</span>
           </div>
           <div className="segment">
-            <span className="segment-value">{countdown.minutes}</span>
+            <span className="segment-value">{String(countdown.minutes).padStart(2, "0")}</span>
             <span className="segment-label">Min</span>
           </div>
           <div className="segment">
-            <span className="segment-value">{countdown.seconds}</span>
+            <span className="segment-value">{String(countdown.seconds).padStart(2, "0")}</span>
             <span className="segment-label">Sec</span>
           </div>
         </div>
@@ -87,7 +88,7 @@ const HomeScreen: React.FC = () => {
         <div className="section-title">Quote of the day</div>
         <p className="quote">
           {quoteText}
-          {quoteAttrib && <span className="quote-attrib"> — {quoteAttrib}</span>}
+          {quoteAttrib && <span className="quote-attrib">— {quoteAttrib}</span>}
         </p>
       </div>
 
@@ -98,6 +99,7 @@ const HomeScreen: React.FC = () => {
             <button
               className="non-neg-circle"
               onClick={() => handleComplete("pullups")}
+              aria-label="Complete 100 pull ups"
             >
               {completed.pullups ? "✓" : ""}
             </button>
@@ -113,6 +115,7 @@ const HomeScreen: React.FC = () => {
             <button
               className="non-neg-circle"
               onClick={() => handleComplete("situps")}
+              aria-label="Complete 100 sit ups"
             >
               {completed.situps ? "✓" : ""}
             </button>
@@ -128,6 +131,7 @@ const HomeScreen: React.FC = () => {
             <button
               className="non-neg-circle"
               onClick={() => handleComplete("squats")}
+              aria-label="Complete 100 squats"
             >
               {completed.squats ? "✓" : ""}
             </button>
@@ -141,9 +145,9 @@ const HomeScreen: React.FC = () => {
           </li>
         </ul>
         {allDone && (
-          <p className="muted" style={{ marginTop: 10 }}>
+          <div className="completion-message">
             Well done brother, let&apos;s keep grinding. Stay hard!
-          </p>
+          </div>
         )}
       </div>
     </div>
@@ -159,18 +163,64 @@ const WorkoutScreen: React.FC = () => {
 
   return (
     <div className="screen">
-      <div className="title">{phase.phase}</div>
+      <h1 className="title">{phase.phase}</h1>
+      
+      {/* Phase Info */}
       <div className="card">
-        <div className="section-title">{weekday}</div>
-        <p className="muted">{dayData.title}</p>
-        <p className="muted" style={{ marginTop: 4 }}>
-          {dayData.rounds}
-        </p>
-        <ul className="non-neg-list" style={{ marginTop: 12 }}>
+        <div className="section-title">Phase Focus</div>
+        <p className="muted" style={{ marginBottom: 8 }}>{phase.days}</p>
+        <p className="quote">{phase.focus}</p>
+      </div>
+
+      {/* Shadowboxing Rules */}
+      <div className="card">
+        <div className="section-title">Shadowboxing Rules</div>
+        <div style={{ marginBottom: 16 }}>
+          <div className="workout-subtitle" style={{ marginBottom: 8 }}>Begin Every Session</div>
+          <ul className="workout-rules-list">
+            {phase.shadowboxingRules.beginEverySession.map((rule, idx) => (
+              <li key={idx}>{rule}</li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <div className="workout-subtitle" style={{ marginBottom: 8 }}>End Every Session</div>
+          <ul className="workout-rules-list">
+            {phase.shadowboxingRules.endEverySession.map((rule, idx) => (
+              <li key={idx}>{rule}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      {/* Today's Workout */}
+      <div className="card">
+        <div className="workout-title">{weekday}</div>
+        <div className="workout-subtitle">{dayData.title}</div>
+        {dayData.rounds && (
+          <div className="workout-rounds">{dayData.rounds}</div>
+        )}
+        <div style={{ marginTop: 16 }}>
           {dayData.workout?.map((item: string, idx: number) => (
-            <li key={idx} className="non-neg-item">
-              <span className="non-neg-label">{item}</span>
-            </li>
+            <div key={idx} className="workout-item">
+              {item}
+            </div>
+          ))}
+        </div>
+        {dayData.finishFocus && (
+          <div className="workout-focus">
+            <div className="workout-focus-label">Finish Focus</div>
+            <div className="workout-focus-text">{dayData.finishFocus}</div>
+          </div>
+        )}
+      </div>
+
+      {/* Wrestler-Specific Rules */}
+      <div className="card">
+        <div className="section-title">Wrestler-Specific Rules</div>
+        <ul className="workout-rules-list">
+          {phase.wrestlerSpecificRules.map((rule, idx) => (
+            <li key={idx}>{rule}</li>
           ))}
         </ul>
       </div>
@@ -183,48 +233,78 @@ const FightStudyScreen: React.FC = () => {
 
   return (
     <div className="screen">
-      <div className="title">Fight Study</div>
+      <h1 className="title">Fight Study</h1>
       <div className="card">
         <div
-          style={{
-            borderRadius: 16,
-            overflow: "hidden",
-            cursor: "pointer",
-            marginBottom: 12
-          }}
+          className="fight-thumbnail"
           onClick={() => window.open(fight.youtubeUrl, "_blank")}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              window.open(fight.youtubeUrl, "_blank");
+            }
+          }}
+          aria-label={`Watch ${fight.title} on YouTube`}
         >
           <img
             src={fight.thumbnailUrl}
             alt={fight.title}
-            style={{ width: "100%", display: "block" }}
+            loading="lazy"
           />
         </div>
-        <h2 style={{ fontSize: 18, margin: "0 0 4px" }}>{fight.title}</h2>
-        <p className="muted" style={{ marginBottom: 12 }}>
-          Focus for today
-        </p>
-        <ul className="non-neg-list">
+        <h2 className="fight-title">{fight.title}</h2>
+        <div className="fight-focus-label">Focus for today</div>
+        <div>
           {fight.keyTakeaways.map((point, idx) => (
-            <li key={idx} className="non-neg-item">
-              <span className="non-neg-label">{point}</span>
-            </li>
+            <div key={idx} className="fight-takeaway">
+              {point}
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
     </div>
   );
 };
 
-const ProgressScreen: React.FC = () => {
+const MindsetScreen: React.FC = () => {
+  const item = useMemo(() => getMindsetOfTheDay(), []);
+
   return (
     <div className="screen">
-      <div className="title">Progress</div>
+      <h1 className="title">Mindset</h1>
+
       <div className="card">
-        <p className="muted">
-          Simple web version of the journey. For now this shows static copy – we
-          can wire in localStorage-backed stats next.
-        </p>
+        <div
+          className="fight-thumbnail"
+          onClick={() => window.open(item.youtubeUrl, "_blank")}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              window.open(item.youtubeUrl, "_blank");
+            }
+          }}
+          aria-label={`Watch ${item.title} on YouTube`}
+        >
+          <img
+            src={item.thumbnailUrl}
+            alt={item.title}
+            loading="lazy"
+          />
+        </div>
+        <h2 className="fight-title">{item.title}</h2>
+        <p className="mindset-message">{item.message}</p>
+        <div className="fight-focus-label" style={{ marginTop: 20 }}>
+          Focus for today
+        </div>
+        <div>
+          {item.focusPoints.map((point, idx) => (
+            <div key={idx} className="fight-takeaway">
+              {point}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -237,39 +317,47 @@ const App: React.FC = () => {
   if (tab === "home") content = <HomeScreen />;
   else if (tab === "workout") content = <WorkoutScreen />;
   else if (tab === "study") content = <FightStudyScreen />;
-  else content = <ProgressScreen />;
+  else content = <MindsetScreen />;
 
   return (
     <div className="app-shell">
       {content}
-      <nav className="bottom-nav">
+      <nav className="bottom-nav" role="navigation" aria-label="Main navigation">
         <button
           className={"nav-item" + (tab === "home" ? " active" : "")}
           onClick={() => setTab("home")}
+          aria-label="Home"
+          aria-current={tab === "home" ? "page" : undefined}
         >
-          <span className="nav-item-icon">🏠</span>
+          <span className="nav-item-icon">H</span>
           <span>Home</span>
         </button>
         <button
           className={"nav-item" + (tab === "workout" ? " active" : "")}
           onClick={() => setTab("workout")}
+          aria-label="Workout"
+          aria-current={tab === "workout" ? "page" : undefined}
         >
-          <span className="nav-item-icon">🔥</span>
+          <span className="nav-item-icon">W</span>
           <span>Workout</span>
         </button>
         <button
           className={"nav-item" + (tab === "study" ? " active" : "")}
           onClick={() => setTab("study")}
+          aria-label="Fight Study"
+          aria-current={tab === "study" ? "page" : undefined}
         >
-          <span className="nav-item-icon">🎯</span>
+          <span className="nav-item-icon">S</span>
           <span>Study</span>
         </button>
         <button
-          className={"nav-item" + (tab === "progress" ? " active" : "")}
-          onClick={() => setTab("progress")}
+          className={"nav-item" + (tab === "mindset" ? " active" : "")}
+          onClick={() => setTab("mindset")}
+          aria-label="Mindset"
+          aria-current={tab === "mindset" ? "page" : undefined}
         >
-          <span className="nav-item-icon">📈</span>
-          <span>Progress</span>
+          <span className="nav-item-icon">M</span>
+          <span>Mindset</span>
         </button>
       </nav>
     </div>
@@ -277,4 +365,3 @@ const App: React.FC = () => {
 };
 
 export default App;
-
