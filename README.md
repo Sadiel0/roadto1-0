@@ -47,4 +47,13 @@ npx expo start
 - No backend, no authentication
 - AI workout generation is currently using deterministic logic based on date
 - AI Assistant uses mock responses (marked with TODO for real AI integration)
-# roadto1-0
+
+## Web / PWA version
+
+This repository now uses **React + Vite** as a mobile-first Progressive Web App:
+
+- `npm install`
+- `npm run dev` to start the local dev server
+- `npm run build` then deploy the `dist` folder (Vercel / Netlify etc.)
+
+PWA support is wired via `vite-plugin-pwa`. The app is dark, minimal, and optimized for phone screens with a bottom tab bar and countdown to March 7.

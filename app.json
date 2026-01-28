@@ -12,11 +12,10 @@
       "**/*"
     ],
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/1a8616dc-7a42-4bd6-8aad-47932cf7db30"
     },
-    "runtimeVersion": {
-      "policy": "sdkVersion"
-    },
+    "runtimeVersion": "1.0.0",
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.roadto10.app"
@@ -26,6 +25,12 @@
         "backgroundColor": "#000000"
       },
       "package": "com.roadto10.app"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "1a8616dc-7a42-4bd6-8aad-47932cf7db30"
+      }
+    },
+    "owner": "theoperator"
   }
 }
