@@ -36,7 +36,7 @@ const HomeScreen: React.FC = () => {
   const quote = useMemo(getRandomQuote, []);
 
   const [completed, setCompleted] = React.useState<Record<string, boolean>>({
-    pullups: false,
+    pushups: false,
     situps: false,
     squats: false
   });
@@ -61,6 +61,8 @@ const HomeScreen: React.FC = () => {
       <div>
         <h1 className="title">THE ROAD TO 1-0</h1>
       </div>
+
+      <p className="home-greeting">Good morning Brother and Cunado Lets get after it.</p>
 
       <div className="card">
         <div className="countdown-label">Countdown to battle</div>
@@ -94,31 +96,25 @@ const HomeScreen: React.FC = () => {
 
       <div className="card">
         <div className="section-title">Daily non-negotiables</div>
+        <p className="non-neg-hint">Tap the circle when done.</p>
         <ul className="non-neg-list">
           <li className="non-neg-item">
-            <button
-              className="non-neg-circle"
-              onClick={() => handleComplete("pullups")}
-              aria-label="Complete 100 pull ups"
-            >
-              {completed.pullups ? "✓" : ""}
-            </button>
             <span
               className={
-                "non-neg-label" + (completed.pullups ? " completed" : "")
+                "non-neg-label" + (completed.pushups ? " completed" : "")
               }
             >
-              100 pull ups
+              100 push ups
             </span>
+            <button
+              className={"non-neg-circle" + (completed.pushups ? " completed" : "")}
+              onClick={() => handleComplete("pushups")}
+              aria-label="Mark 100 push ups complete"
+            >
+              {completed.pushups ? "✓" : ""}
+            </button>
           </li>
           <li className="non-neg-item">
-            <button
-              className="non-neg-circle"
-              onClick={() => handleComplete("situps")}
-              aria-label="Complete 100 sit ups"
-            >
-              {completed.situps ? "✓" : ""}
-            </button>
             <span
               className={
                 "non-neg-label" + (completed.situps ? " completed" : "")
@@ -126,15 +122,15 @@ const HomeScreen: React.FC = () => {
             >
               100 sit ups
             </span>
+            <button
+              className={"non-neg-circle" + (completed.situps ? " completed" : "")}
+              onClick={() => handleComplete("situps")}
+              aria-label="Mark 100 sit ups complete"
+            >
+              {completed.situps ? "✓" : ""}
+            </button>
           </li>
           <li className="non-neg-item">
-            <button
-              className="non-neg-circle"
-              onClick={() => handleComplete("squats")}
-              aria-label="Complete 100 squats"
-            >
-              {completed.squats ? "✓" : ""}
-            </button>
             <span
               className={
                 "non-neg-label" + (completed.squats ? " completed" : "")
@@ -142,6 +138,13 @@ const HomeScreen: React.FC = () => {
             >
               100 squats
             </span>
+            <button
+              className={"non-neg-circle" + (completed.squats ? " completed" : "")}
+              onClick={() => handleComplete("squats")}
+              aria-label="Mark 100 squats complete"
+            >
+              {completed.squats ? "✓" : ""}
+            </button>
           </li>
         </ul>
         {allDone && (
@@ -175,21 +178,27 @@ const WorkoutScreen: React.FC = () => {
       {/* Shadowboxing Rules */}
       <div className="card">
         <div className="section-title">Shadowboxing Rules</div>
-        <div style={{ marginBottom: 16 }}>
-          <div className="workout-subtitle" style={{ marginBottom: 8 }}>Begin Every Session</div>
-          <ul className="workout-rules-list">
+        <div className="workout-rules-block" style={{ marginBottom: 20 }}>
+          <div className="workout-subtitle" style={{ marginBottom: 12 }}>Begin Every Session</div>
+          <div className="workout-items-container">
             {phase.shadowboxingRules.beginEverySession.map((rule, idx) => (
-              <li key={idx}>{rule}</li>
+              <div key={`begin-${idx}`} className="workout-item">
+                <div className="workout-item-number">{idx + 1}</div>
+                <div className="workout-item-content">{rule}</div>
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
-        <div>
-          <div className="workout-subtitle" style={{ marginBottom: 8 }}>End Every Session</div>
-          <ul className="workout-rules-list">
+        <div className="workout-rules-block">
+          <div className="workout-subtitle" style={{ marginBottom: 12 }}>End Every Session</div>
+          <div className="workout-items-container">
             {phase.shadowboxingRules.endEverySession.map((rule, idx) => (
-              <li key={idx}>{rule}</li>
+              <div key={`end-${idx}`} className="workout-item">
+                <div className="workout-item-number">{idx + 1}</div>
+                <div className="workout-item-content">{rule}</div>
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
       </div>
 
@@ -200,10 +209,11 @@ const WorkoutScreen: React.FC = () => {
         {dayData.rounds && (
           <div className="workout-rounds">{dayData.rounds}</div>
         )}
-        <div style={{ marginTop: 16 }}>
+        <div className="workout-items-container">
           {dayData.workout?.map((item: string, idx: number) => (
             <div key={idx} className="workout-item">
-              {item}
+              <div className="workout-item-number">{idx + 1}</div>
+              <div className="workout-item-content">{item}</div>
             </div>
           ))}
         </div>
@@ -218,11 +228,14 @@ const WorkoutScreen: React.FC = () => {
       {/* Wrestler-Specific Rules */}
       <div className="card">
         <div className="section-title">Wrestler-Specific Rules</div>
-        <ul className="workout-rules-list">
+        <div className="workout-items-container">
           {phase.wrestlerSpecificRules.map((rule, idx) => (
-            <li key={idx}>{rule}</li>
+            <div key={idx} className="workout-item">
+              <div className="workout-item-number">{idx + 1}</div>
+              <div className="workout-item-content">{rule}</div>
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
     </div>
   );

@@ -63,17 +63,18 @@ export const phase1FoundationOfViolence = {
     },
 
     THURSDAY: {
-      title: "Power & Core (Hip Dominance)",
-      rounds: "5 rounds",
+      title: "Strike Volume & Chaos Conditioning",
+      rounds: "5 x 5 min",
       workout: [
-        "KB swings x50",
-        "Plyo pushups x12",
-        "V-ups x25",
-        "Bear crawl 60 sec",
-        "Neck bridges 30 sec",
-        "Sprawl hold 5 sec x5 (hips heavy)"
+        "KB push press x12/side",
+        "Plyo pushups x15",
+        "Shadowbox power combo 45 sec",
+        "Hand-release pushups x25",
+        "Shadowbox head movement + counters 45 sec",
+        "V-ups x30"
       ],
-      finishFocus: "Counter right / uppercut after sprawl"
+      roundRules: "No stopping inside the round. Shadowbox with intent.",
+      finishFocus: "High-volume boxing — hooks, uppercuts, dirty entries"
     },
 
     FRIDAY: {
