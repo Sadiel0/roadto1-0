@@ -62,7 +62,7 @@ const HomeScreen: React.FC = () => {
         <h1 className="title">THE ROAD TO 1-0</h1>
       </div>
 
-      <p className="home-greeting">Good morning Brother and Cunado Lets get after it.</p>
+      <p className="home-greeting">Rise and shine warrior.</p>
 
       <div className="card">
         <div className="countdown-label">Countdown to battle</div>
@@ -157,11 +157,15 @@ const HomeScreen: React.FC = () => {
   );
 };
 
+const DAY_KEYS = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"] as const;
+
 const WorkoutScreen: React.FC = () => {
   const today = new Date();
-  const weekday = today.toLocaleDateString("en-US", { weekday: "long" }).toUpperCase();
+  const defaultWeekday = today.toLocaleDateString("en-US", { weekday: "long" }).toUpperCase();
   const phase = workouts.phase1FoundationOfViolence;
   const schedule: any = phase.schedule;
+  const dayParam = typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("day") : null;
+  const weekday = dayParam && DAY_KEYS.includes(dayParam as any) ? dayParam : defaultWeekday;
   const dayData = schedule[weekday] ?? schedule.MONDAY;
 
   return (
@@ -171,7 +175,6 @@ const WorkoutScreen: React.FC = () => {
       {/* Phase Info */}
       <div className="card">
         <div className="section-title">Phase Focus</div>
-        <p className="muted" style={{ marginBottom: 8 }}>{phase.days}</p>
         <p className="quote">{phase.focus}</p>
       </div>
 
@@ -182,8 +185,7 @@ const WorkoutScreen: React.FC = () => {
           <div className="workout-subtitle" style={{ marginBottom: 12 }}>Begin Every Session</div>
           <div className="workout-items-container">
             {phase.shadowboxingRules.beginEverySession.map((rule, idx) => (
-              <div key={`begin-${idx}`} className="workout-item">
-                <div className="workout-item-number">{idx + 1}</div>
+              <div key={`begin-${idx}`} className="workout-item workout-item--no-number">
                 <div className="workout-item-content">{rule}</div>
               </div>
             ))}
@@ -193,8 +195,7 @@ const WorkoutScreen: React.FC = () => {
           <div className="workout-subtitle" style={{ marginBottom: 12 }}>End Every Session</div>
           <div className="workout-items-container">
             {phase.shadowboxingRules.endEverySession.map((rule, idx) => (
-              <div key={`end-${idx}`} className="workout-item">
-                <div className="workout-item-number">{idx + 1}</div>
+              <div key={`end-${idx}`} className="workout-item workout-item--no-number">
                 <div className="workout-item-content">{rule}</div>
               </div>
             ))}
@@ -209,12 +210,47 @@ const WorkoutScreen: React.FC = () => {
         {dayData.rounds && (
           <div className="workout-rounds">{dayData.rounds}</div>
         )}
-        <div className="workout-items-container">
-          {dayData.workout?.map((item: string, idx: number) => (
-            <div key={idx} className="workout-item">
-              <div className="workout-item-number">{idx + 1}</div>
-              <div className="workout-item-content">{item}</div>
+        {dayData.rest && (
+          <div className="workout-rest">{dayData.rest}</div>
+        )}
+        {dayData.roundRules != null && (
+          <div className="workout-rules-block" style={{ marginBottom: 16 }}>
+            <div className="workout-subtitle" style={{ marginBottom: 8 }}>Round Rules</div>
+            <div className="workout-items-container">
+              {(Array.isArray(dayData.roundRules) ? dayData.roundRules : [dayData.roundRules]).map((rule: string, idx: number) => (
+                <div key={idx} className="workout-item workout-item--no-number">
+                  <div className="workout-item-content">{rule}</div>
+                </div>
+              ))}
             </div>
+          </div>
+        )}
+        {dayData.roundIntent != null && Array.isArray(dayData.roundIntent) && dayData.roundIntent.length > 0 && (
+          <div className="workout-rules-block" style={{ marginBottom: 16 }}>
+            <div className="workout-subtitle" style={{ marginBottom: 8 }}>Round Intent</div>
+            <div className="workout-items-container">
+              {dayData.roundIntent.map((line: string, idx: number) => (
+                <div key={idx} className="workout-item workout-item--no-number">
+                  <div className="workout-item-content">{line}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+        <div className="workout-items-container workout-items-container--with-separators">
+          {dayData.workout?.map((item: string, idx: number) => (
+            <React.Fragment key={idx}>
+              <div className="workout-item">
+                <div className="workout-item-number">{idx + 1}</div>
+                <div className="workout-item-content">{item}</div>
+              </div>
+              {idx < (dayData.workout?.length ?? 0) - 1 && (
+                <div className="workout-item-separator" aria-hidden="true">
+                  <span className="workout-item-separator-line" />
+                  <span className="workout-item-separator-arrow">↓</span>
+                </div>
+              )}
+            </React.Fragment>
           ))}
         </div>
         {dayData.finishFocus && (
@@ -230,8 +266,7 @@ const WorkoutScreen: React.FC = () => {
         <div className="section-title">Wrestler-Specific Rules</div>
         <div className="workout-items-container">
           {phase.wrestlerSpecificRules.map((rule, idx) => (
-            <div key={idx} className="workout-item">
-              <div className="workout-item-number">{idx + 1}</div>
+            <div key={idx} className="workout-item workout-item--no-number">
               <div className="workout-item-content">{rule}</div>
             </div>
           ))}

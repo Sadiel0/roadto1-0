@@ -490,10 +490,21 @@ body {
 }
 
 .workout-rounds {
-  font-size: 13px;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--accent-primary);
+  margin: 0 0 20px 0;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-shadow: 0 0 14px var(--accent-glow);
+}
+
+.workout-rest {
+  font-size: 15px;
+  font-weight: 600;
   color: var(--text-secondary);
   margin: 0 0 16px 0;
-  font-weight: 500;
+  line-height: 1.5;
 }
 
 .workout-items-container {
@@ -547,6 +558,49 @@ body {
   line-height: 1.6;
   font-weight: 500;
   padding-top: 2px;
+}
+
+/* Items without numbers (rules, shadowboxing, wrestler rules) */
+.workout-item--no-number {
+  padding-left: 16px;
+}
+.workout-item--no-number::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-primary);
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+
+/* Separator between workout items: line pointing down */
+.workout-items-container--with-separators {
+  gap: 0;
+}
+.workout-item-separator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 0;
+  margin: 4px 0;
+}
+.workout-item-separator-line {
+  width: 2px;
+  height: 16px;
+  background: linear-gradient(to bottom, var(--accent-primary), var(--accent-secondary));
+  opacity: 0.8;
+  border-radius: 1px;
+}
+.workout-item-separator-arrow {
+  font-size: 14px;
+  color: var(--accent-primary);
+  line-height: 1;
+  margin-top: 2px;
+  text-shadow: 0 0 10px var(--accent-glow);
 }
 
 .workout-rules-list {

@@ -81,17 +81,14 @@ export const fightStudies: FightStudy[] = [
   }
 ];
 
+const WRESTLER_VS_STRIKER: FightStudy = fightStudies.find(
+  (f) => f.id === "wrestler-vs-striker-ufc"
+)!;
+
 /**
- * Get the fight of the day based on the current date
- * Uses day of year to cycle through fights deterministically
- * Returns the same fight for the entire day, changes at midnight
+ * Get the fight of the day.
+ * Currently fixed to Wrestler vs Striker – UFC Pressure & Control.
  */
 export function getFightOfTheDay(): FightStudy {
-  const today = new Date();
-  const dayOfYear = Math.floor(
-    (today.getTime() - new Date(today.getFullYear(), 0, 0).getTime()) /
-    (1000 * 60 * 60 * 24)
-  );
-  const index = dayOfYear % fightStudies.length;
-  return fightStudies[index];
+  return WRESTLER_VS_STRIKER;
 }

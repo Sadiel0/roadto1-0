@@ -91,14 +91,38 @@ export const mindsetItems: MindsetItem[] = [
       "Confidence through repetition",
       "No hesitation, no doubt"
     ]
+  },
+  {
+    id: "the-lone-path",
+    title: "The One Who Walks Alone",
+    youtubeUrl: "https://youtu.be/iLBzpjQusiQ",
+    thumbnailUrl: "https://img.youtube.com/vi/iLBzpjQusiQ/hqdefault.jpg",
+    message:
+      "While others choose comfort and safety, some choose the hard path alone. Growth happens away from the group, away from approval, and away from shortcuts.",
+    focusPoints: [
+      "Do the work even when no one is watching",
+      "Isolation builds self-reliance",
+      "The hard path creates uncommon strength",
+      "You chose this — finish it"
+    ]
   }
 ];
 
-export function getMindsetOfTheDay(): MindsetItem {
-  const today = new Date().toISOString().split("T")[0];
-  const index =
-    today.split("").reduce((sum, char) => sum + char.charCodeAt(0), 0) %
-    mindsetItems.length;
+const LONE_PATH_ITEM: MindsetItem = {
+  id: "the-lone-path",
+  title: "The One Who Walks Alone",
+  youtubeUrl: "https://youtu.be/iLBzpjQusiQ",
+  thumbnailUrl: "https://img.youtube.com/vi/iLBzpjQusiQ/hqdefault.jpg",
+  message:
+    "While others choose comfort and safety, some choose the hard path alone. Growth happens away from the group, away from approval, and away from shortcuts.",
+  focusPoints: [
+    "Do the work even when no one is watching",
+    "Isolation builds self-reliance",
+    "The hard path creates uncommon strength",
+    "You chose this — finish it"
+  ]
+};
 
-  return mindsetItems[index];
+export function getMindsetOfTheDay(): MindsetItem {
+  return LONE_PATH_ITEM;
 }

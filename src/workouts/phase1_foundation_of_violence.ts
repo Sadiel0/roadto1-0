@@ -1,6 +1,5 @@
 export const phase1FoundationOfViolence = {
   phase: "PHASE 1 — FOUNDATION OF VIOLENCE",
-  days: "Days 38–26",
   focus:
     "Engine, posture, hips, lungs, and anti-wrestling reactions. Build automatic sprawls, fast re-stands, and punishment after the shot.",
 
@@ -12,10 +11,8 @@ export const phase1FoundationOfViolence = {
       "Focus on breathing, balance, footwork, hips back"
     ],
     endEverySession: [
-      "5–10 minutes shadowboxing",
-      "Tired, hands up, forward pressure",
-      "Sprawl → counter → reset sequences",
-      "Finish calm, not frantic"
+      "5–10 minutes easy shadowboxing",
+      "Stretch and cool down"
     ]
   },
 
@@ -78,16 +75,31 @@ export const phase1FoundationOfViolence = {
     },
 
     FRIDAY: {
-      title: "Pressure Day (Wrestler Breaker)",
-      rounds: "4 brutal rounds",
+      title: "Truck Pressure Rounds (Time-Controlled)",
+      rounds: "4 x 3 min + 1 x 5 min",
+      rest: "60 sec between rounds (stand, hands on head, nasal breathing)",
       workout: [
-        "Farmer carry KB 90 sec",
-        "Pushups x40",
-        "Jump lunges x20 per leg",
-        "Sprint 200 m",
-        "Sprawls x10 at end of each round"
+        "Fast pushups x25",
+        "Shadowbox 45 sec (jab–cross–hook, forward pressure)",
+        "V-ups x20",
+        "Shadowbox 45 sec (hooks + uppercuts, tight guard)",
+        "Plyo pushups x10",
+        "Shadowbox 60 sec (power shots, stay planted)"
       ],
-      finishFocus: "Walk opponent down after defended shots"
+      roundRules: [
+        "Each round lasts the FULL time no matter what.",
+        "If you finish all reps early, immediately shadowbox until the round ends.",
+        "If you fall behind, skip NOTHING — keep cycling the list in order.",
+        "If fatigued, slow punches but keep hands moving.",
+        "No sitting or kneeling during rest; stay upright in fight posture.",
+        "Breathing must return to controlled within the first 30 sec of rest."
+      ],
+      roundIntent: [
+        "Rounds 1–2: volume and rhythm, smooth pressure",
+        "Rounds 3–4: fatigue management, hands stay high",
+        "Final 5-min round: simulate Round 3 of the fight — composure over chaos"
+      ],
+      finishFocus: "Late-round composure — pressure without panic, clean punches when tired"
     },
 
     SATURDAY: {
