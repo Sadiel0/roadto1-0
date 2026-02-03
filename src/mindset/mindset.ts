@@ -105,24 +105,30 @@ export const mindsetItems: MindsetItem[] = [
       "The hard path creates uncommon strength",
       "You chose this — finish it"
     ]
+  },
+  {
+    id: "resolve-over-emotion",
+    title: "Resolve Over Emotion",
+    youtubeUrl: "https://www.youtube.com/watch?v=FskIafcSG34",
+    thumbnailUrl: "https://img.youtube.com/vi/FskIafcSG34/hqdefault.jpg",
+    message:
+      "Emotion fades. Resolve remains. This is about continuing when the feeling is gone — when the body is heavy, the mind is quiet, and the work still demands to be done.",
+    focusPoints: [
+      "Move with intent, not emotion",
+      "Stay composed when motivation drops",
+      "Finish tasks without negotiating",
+      "Trust the work already done"
+    ]
   }
 ];
 
-const LONE_PATH_ITEM: MindsetItem = {
-  id: "the-lone-path",
-  title: "The One Who Walks Alone",
-  youtubeUrl: "https://youtu.be/iLBzpjQusiQ",
-  thumbnailUrl: "https://img.youtube.com/vi/iLBzpjQusiQ/hqdefault.jpg",
-  message:
-    "While others choose comfort and safety, some choose the hard path alone. Growth happens away from the group, away from approval, and away from shortcuts.",
-  focusPoints: [
-    "Do the work even when no one is watching",
-    "Isolation builds self-reliance",
-    "The hard path creates uncommon strength",
-    "You chose this — finish it"
-  ]
-};
+const RESOLVE_OVER_EMOTION = mindsetItems.find(
+  (m) => m.id === "resolve-over-emotion"
+)!;
 
-export function getMindsetOfTheDay(): MindsetItem {
-  return LONE_PATH_ITEM;
+/**
+ * Get the mindset of the day. Currently fixed to Resolve Over Emotion.
+ */
+export function getMindsetOfTheDay(_date?: Date): MindsetItem {
+  return RESOLVE_OVER_EMOTION;
 }

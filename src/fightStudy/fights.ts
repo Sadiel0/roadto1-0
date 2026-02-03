@@ -78,17 +78,29 @@ export const fightStudies: FightStudy[] = [
       "Leg kicks control distance and rhythm",
       "Calm execution wins high-pressure moments"
     ]
+  },
+  {
+    id: "striker-vs-wrestler-blueprint",
+    title: "Striker vs Wrestler — Distance, Damage, Discipline",
+    youtubeUrl: "https://www.youtube.com/watch?v=FHp-k31llgo",
+    thumbnailUrl: "https://img.youtube.com/vi/FHp-k31llgo/hqdefault.jpg",
+    keyTakeaways: [
+      "Control distance before throwing combinations",
+      "Punish level changes with uppercuts and knees",
+      "Circle off immediately after defending shots",
+      "Damage accumulates when the wrestler fails repeatedly",
+      "Do not chase finishes — let fatigue create openings"
+    ]
   }
 ];
 
-const WRESTLER_VS_STRIKER: FightStudy = fightStudies.find(
-  (f) => f.id === "wrestler-vs-striker-ufc"
+const STRIKER_VS_WRESTLER_BLUEPRINT = fightStudies.find(
+  (f) => f.id === "striker-vs-wrestler-blueprint"
 )!;
 
 /**
- * Get the fight of the day.
- * Currently fixed to Wrestler vs Striker – UFC Pressure & Control.
+ * Get the fight of the day. Currently fixed to Striker vs Wrestler — Distance, Damage, Discipline.
  */
-export function getFightOfTheDay(): FightStudy {
-  return WRESTLER_VS_STRIKER;
+export function getFightOfTheDay(_date?: Date): FightStudy {
+  return STRIKER_VS_WRESTLER_BLUEPRINT;
 }

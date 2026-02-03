@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { quotes } from "./utils/quotes";
 import { workouts } from "./workouts";
 import { getFightOfTheDay } from "./fightStudy/fights";
@@ -158,14 +158,30 @@ const HomeScreen: React.FC = () => {
 };
 
 const DAY_KEYS = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"] as const;
+const DAY_NAME_TO_NUM: Record<string, number> = { SUNDAY: 0, MONDAY: 1, TUESDAY: 2, WEDNESDAY: 3, THURSDAY: 4, FRIDAY: 5, SATURDAY: 6 };
 
-const WorkoutScreen: React.FC = () => {
+/** When ?day=WEDNESDAY (or absent, default WEDNESDAY), return that weekday's date in the current week */
+function getEffectiveDate(): Date | null {
+  if (typeof window === "undefined") return null;
+  const dayParam = new URLSearchParams(window.location.search).get("day");
+  const dayKey = (dayParam && DAY_KEYS.includes(dayParam as any) ? dayParam : "WEDNESDAY") as string;
+  const dayNum = DAY_NAME_TO_NUM[dayKey] ?? 3;
   const today = new Date();
-  const defaultWeekday = today.toLocaleDateString("en-US", { weekday: "long" }).toUpperCase();
+  const startOfWeek = new Date(today);
+  startOfWeek.setDate(today.getDate() - today.getDay());
+  const effective = new Date(startOfWeek);
+  effective.setDate(startOfWeek.getDate() + dayNum);
+  return effective;
+}
+
+const WorkoutScreen: React.FC<{ effectiveDate?: Date | null }> = ({ effectiveDate }) => {
+  const today = new Date();
+  const defaultWeekday = effectiveDate
+    ? effectiveDate.toLocaleDateString("en-US", { weekday: "long" }).toUpperCase()
+    : today.toLocaleDateString("en-US", { weekday: "long" }).toUpperCase();
   const phase = workouts.phase1FoundationOfViolence;
   const schedule: any = phase.schedule;
-  const dayParam = typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("day") : null;
-  const weekday = dayParam && DAY_KEYS.includes(dayParam as any) ? dayParam : defaultWeekday;
+  const weekday = defaultWeekday;
   const dayData = schedule[weekday] ?? schedule.MONDAY;
 
   return (
@@ -276,8 +292,8 @@ const WorkoutScreen: React.FC = () => {
   );
 };
 
-const FightStudyScreen: React.FC = () => {
-  const fight = getFightOfTheDay();
+const FightStudyScreen: React.FC<{ effectiveDate?: Date | null }> = ({ effectiveDate }) => {
+  const fight = getFightOfTheDay(effectiveDate ?? undefined);
 
   return (
     <div className="screen">
@@ -301,12 +317,12 @@ const FightStudyScreen: React.FC = () => {
             loading="lazy"
           />
         </div>
-        <h2 className="fight-title">{fight.title}</h2>
-        <div className="fight-focus-label">Focus for today</div>
-        <div>
+        <h2 className="study-mindset-card-title">{fight.title}</h2>
+        <div className="section-title" style={{ marginTop: 20, marginBottom: 12 }}>Focus notes</div>
+        <div className="workout-items-container">
           {fight.keyTakeaways.map((point, idx) => (
-            <div key={idx} className="fight-takeaway">
-              {point}
+            <div key={idx} className="workout-item workout-item--no-number">
+              <div className="workout-item-content">{point}</div>
             </div>
           ))}
         </div>
@@ -315,8 +331,9 @@ const FightStudyScreen: React.FC = () => {
   );
 };
 
-const MindsetScreen: React.FC = () => {
-  const item = useMemo(() => getMindsetOfTheDay(), []);
+const MindsetScreen: React.FC<{ effectiveDate?: Date | null }> = ({ effectiveDate }) => {
+  const dateStr = effectiveDate?.toDateString() ?? "";
+  const item = useMemo(() => getMindsetOfTheDay(effectiveDate ?? undefined), [dateStr]);
 
   return (
     <div className="screen">
@@ -341,15 +358,13 @@ const MindsetScreen: React.FC = () => {
             loading="lazy"
           />
         </div>
-        <h2 className="fight-title">{item.title}</h2>
+        <h2 className="study-mindset-card-title">{item.title}</h2>
         <p className="mindset-message">{item.message}</p>
-        <div className="fight-focus-label" style={{ marginTop: 20 }}>
-          Focus for today
-        </div>
-        <div>
+        <div className="section-title" style={{ marginTop: 20, marginBottom: 12 }}>Focus points</div>
+        <div className="workout-items-container">
           {item.focusPoints.map((point, idx) => (
-            <div key={idx} className="fight-takeaway">
-              {point}
+            <div key={idx} className="workout-item workout-item--no-number">
+              <div className="workout-item-content">{point}</div>
             </div>
           ))}
         </div>
@@ -358,14 +373,29 @@ const MindsetScreen: React.FC = () => {
   );
 };
 
+/** Update when calendar day changes so workout / study / mindset rotate at midnight — DISABLED until re-enabled */
+// function useDateKey(): string {
+//   const [dateKey, setDateKey] = useState(() => new Date().toDateString());
+//   useEffect(() => {
+//     const id = setInterval(() => {
+//       const next = new Date().toDateString();
+//       setDateKey((prev) => (next !== prev ? next : prev));
+//     }, 60 * 1000);
+//     return () => clearInterval(id);
+//   }, []);
+//   return dateKey;
+// }
+
 const App: React.FC = () => {
   const [tab, setTab] = useState<TabId>("home");
+  // const dateKey = useDateKey(); // disabled: no midnight refresh
+  const effectiveDate = getEffectiveDate();
 
   let content: React.ReactNode;
-  if (tab === "home") content = <HomeScreen />;
-  else if (tab === "workout") content = <WorkoutScreen />;
-  else if (tab === "study") content = <FightStudyScreen />;
-  else content = <MindsetScreen />;
+  if (tab === "home") content = <HomeScreen key={tab} />;
+  else if (tab === "workout") content = <WorkoutScreen key={tab} effectiveDate={effectiveDate} />;
+  else if (tab === "study") content = <FightStudyScreen key={tab} effectiveDate={effectiveDate} />;
+  else content = <MindsetScreen key={tab} effectiveDate={effectiveDate} />;
 
   return (
     <div className="app-shell">
