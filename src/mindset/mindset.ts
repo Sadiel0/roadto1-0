@@ -1,3 +1,5 @@
+import { getScheduleForDate } from "../schedule/dailySchedule";
+
 export type MindsetItem = {
   id: string;
   title: string;
@@ -7,128 +9,86 @@ export type MindsetItem = {
   focusPoints: string[];
 };
 
+/** Mindset content by id. Schedule maps each day to a mindsetId. */
 export const mindsetItems: MindsetItem[] = [
   {
-    id: "soldiers-rage",
-    title: "Controlled Rage",
-    youtubeUrl: "https://www.youtube.com/watch?v=di3rHkEZuUw",
-    thumbnailUrl: "https://img.youtube.com/vi/di3rHkEZuUw/hqdefault.jpg",
+    id: "calm-under-fire",
+    title: "Calm Under Fire",
+    youtubeUrl: "https://www.youtube.com/watch?v=IdTMDpizis8",
+    thumbnailUrl: "https://img.youtube.com/vi/IdTMDpizis8/hqdefault.jpg",
     message:
-      "This is not emotion. This is controlled violence. You enter the fight calm, disciplined, and ready to impose your will.",
+      "Chaos exposes emotion. Discipline keeps you functional. Stay calm and execute.",
     focusPoints: [
-      "Aggression without panic",
-      "Calm eyes under pressure",
-      "Violence with structure",
-      "Dominate exchanges mentally first"
+      "Slow the breath first",
+      "Emotion wastes energy",
+      "Calm fighters see openings",
+      "Composure wins exchanges"
     ]
   },
   {
-    id: "short-discipline",
-    title: "No Motivation Required",
-    youtubeUrl: "https://www.youtube.com/shorts/VBa8cjajZeE",
-    thumbnailUrl: "https://img.youtube.com/vi/VBa8cjajZeE/hqdefault.jpg",
+    id: "relentless-consistency",
+    title: "Consistency Beats Talent",
+    youtubeUrl: "https://www.youtube.com/watch?v=hNi9M6JOnYw",
+    thumbnailUrl: "https://img.youtube.com/vi/hNi9M6JOnYw/hqdefault.jpg",
     message:
-      "You don't wait to feel ready. You move because that's who you are now.",
+      "Winning is built long before fight night. Repetition creates inevitability.",
     focusPoints: [
-      "Action before emotion",
-      "No negotiation with fatigue",
-      "Execute regardless of mood",
-      "Discipline builds confidence"
+      "Do the work regardless of mood",
+      "Small efforts compound",
+      "No shortcuts during camp",
+      "Trust preparation"
     ]
   },
   {
-    id: "short-pressure",
-    title: "Pressure Is the Weapon",
-    youtubeUrl: "https://www.youtube.com/shorts/WrjQMHzNB2A",
-    thumbnailUrl: "https://img.youtube.com/vi/WrjQMHzNB2A/hqdefault.jpg",
+    id: "chosen-hardship",
+    title: "You Chose This Path",
+    youtubeUrl: "https://youtu.be/mrSey_Nln0k",
+    thumbnailUrl: "https://img.youtube.com/vi/mrSey_Nln0k/hqdefault.jpg",
     message:
-      "Pressure exposes weakness. Your job is to apply it until something breaks.",
+      "This path is hard by design. You chose it. Now honor it.",
     focusPoints: [
-      "Forward intent at all times",
-      "No wasted movement",
-      "Break rhythm, not just bodies",
-      "Stay composed while advancing"
+      "Voluntary suffering builds confidence",
+      "Comfort is not the goal",
+      "Hard paths forge durable fighters",
+      "Finish what you started"
     ]
   },
   {
-    id: "anime-focus",
-    title: "Unshakeable Focus",
-    youtubeUrl: "https://www.youtube.com/watch?v=vKYTUy-GFRs",
-    thumbnailUrl: "https://img.youtube.com/vi/vKYTUy-GFRs/hqdefault.jpg",
+    id: "spartan-law",
+    title: "Stand Your Ground",
+    youtubeUrl: "https://www.youtube.com/watch?v=eGtF-zkeo9s",
+    thumbnailUrl: "https://img.youtube.com/vi/eGtF-zkeo9s/hqdefault.jpg",
     message:
-      "Tunnel vision. One task. One opponent. Everything else disappears.",
+      "You don't retreat from pressure. You meet it with structure.",
     focusPoints: [
-      "No crowd awareness",
-      "No time awareness",
-      "Only execution",
-      "Trust preparation completely"
+      "Posture before movement",
+      "Strength in stillness",
+      "Discipline under threat",
+      "No unnecessary reactions"
     ]
   },
   {
-    id: "anime-endurance",
-    title: "Endure Longer",
-    youtubeUrl: "https://www.youtube.com/watch?v=V18QLZYZjf0",
-    thumbnailUrl: "https://img.youtube.com/vi/V18QLZYZjf0/hqdefault.jpg",
-    message:
-      "When the fight becomes uncomfortable, that's where it's decided.",
-    focusPoints: [
-      "Comfort is irrelevant",
-      "Endurance wins debuts",
-      "Stay present under fatigue",
-      "Outlast, then overwhelm"
-    ]
-  },
-  {
-    id: "short-identity",
+    id: "identity-lock-in",
     title: "This Is Who You Are Now",
-    youtubeUrl: "https://www.youtube.com/shorts/Acfy8Iz4HSI",
-    thumbnailUrl: "https://img.youtube.com/vi/Acfy8Iz4HSI/hqdefault.jpg",
+    youtubeUrl: "https://www.youtube.com/watch?v=Yv4vPDqoOmQ",
+    thumbnailUrl: "https://img.youtube.com/vi/Yv4vPDqoOmQ/hqdefault.jpg",
     message:
-      "You are no longer preparing. You are becoming.",
+      "You're no longer preparing to be a fighter. You are one.",
     focusPoints: [
-      "Identity before outcome",
-      "Act like the fighter now",
+      "Act from identity, not hope",
       "Confidence through repetition",
-      "No hesitation, no doubt"
-    ]
-  },
-  {
-    id: "the-lone-path",
-    title: "The One Who Walks Alone",
-    youtubeUrl: "https://youtu.be/iLBzpjQusiQ",
-    thumbnailUrl: "https://img.youtube.com/vi/iLBzpjQusiQ/hqdefault.jpg",
-    message:
-      "While others choose comfort and safety, some choose the hard path alone. Growth happens away from the group, away from approval, and away from shortcuts.",
-    focusPoints: [
-      "Do the work even when no one is watching",
-      "Isolation builds self-reliance",
-      "The hard path creates uncommon strength",
-      "You chose this — finish it"
-    ]
-  },
-  {
-    id: "resolve-over-emotion",
-    title: "Resolve Over Emotion",
-    youtubeUrl: "https://www.youtube.com/watch?v=FskIafcSG34",
-    thumbnailUrl: "https://img.youtube.com/vi/FskIafcSG34/hqdefault.jpg",
-    message:
-      "Emotion fades. Resolve remains. This is about continuing when the feeling is gone — when the body is heavy, the mind is quiet, and the work still demands to be done.",
-    focusPoints: [
-      "Move with intent, not emotion",
-      "Stay composed when motivation drops",
-      "Finish tasks without negotiating",
-      "Trust the work already done"
+      "No second-guessing",
+      "Execute with certainty"
     ]
   }
 ];
 
-const RESOLVE_OVER_EMOTION = mindsetItems.find(
-  (m) => m.id === "resolve-over-emotion"
-)!;
-
 /**
- * Get the mindset of the day. Currently fixed to Resolve Over Emotion.
+ * Mindset of the day by ID-date. Refreshes at 12am via schedule.
  */
-export function getMindsetOfTheDay(_date?: Date): MindsetItem {
-  return RESOLVE_OVER_EMOTION;
+export function getMindsetOfTheDay(date?: Date): MindsetItem {
+  const d = date ?? new Date();
+  const { mindsetId } = getScheduleForDate(d);
+  const item = mindsetItems.find((m) => m.id === mindsetId);
+  return item ?? mindsetItems[0];
 }

@@ -373,29 +373,29 @@ const MindsetScreen: React.FC<{ effectiveDate?: Date | null }> = ({ effectiveDat
   );
 };
 
-/** Update when calendar day changes so workout / study / mindset rotate at midnight — DISABLED until re-enabled */
-// function useDateKey(): string {
-//   const [dateKey, setDateKey] = useState(() => new Date().toDateString());
-//   useEffect(() => {
-//     const id = setInterval(() => {
-//       const next = new Date().toDateString();
-//       setDateKey((prev) => (next !== prev ? next : prev));
-//     }, 60 * 1000);
-//     return () => clearInterval(id);
-//   }, []);
-//   return dateKey;
-// }
+/** Updates when calendar day changes at 12am so Fight Study and Mindset tabs refresh by ID-date */
+function useDateKey(): string {
+  const [dateKey, setDateKey] = useState(() => new Date().toDateString());
+  useEffect(() => {
+    const id = setInterval(() => {
+      const next = new Date().toDateString();
+      setDateKey((prev) => (next !== prev ? next : prev));
+    }, 60 * 1000);
+    return () => clearInterval(id);
+  }, []);
+  return dateKey;
+}
 
 const App: React.FC = () => {
   const [tab, setTab] = useState<TabId>("home");
-  // const dateKey = useDateKey(); // disabled: no midnight refresh
+  const dateKey = useDateKey();
   const effectiveDate = getEffectiveDate();
 
   let content: React.ReactNode;
   if (tab === "home") content = <HomeScreen key={tab} />;
   else if (tab === "workout") content = <WorkoutScreen key={tab} effectiveDate={effectiveDate} />;
-  else if (tab === "study") content = <FightStudyScreen key={tab} effectiveDate={effectiveDate} />;
-  else content = <MindsetScreen key={tab} effectiveDate={effectiveDate} />;
+  else if (tab === "study") content = <FightStudyScreen key={dateKey} effectiveDate={effectiveDate} />;
+  else content = <MindsetScreen key={dateKey} effectiveDate={effectiveDate} />;
 
   return (
     <div className="app-shell">

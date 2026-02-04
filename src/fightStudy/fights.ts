@@ -1,3 +1,5 @@
+import { getScheduleForDate } from "../schedule/dailySchedule";
+
 export type FightStudy = {
   id: string;
   title: string;
@@ -6,101 +8,64 @@ export type FightStudy = {
   keyTakeaways: string[];
 };
 
+/** Fight study content by id. Schedule (dailySchedule) maps each day to a fightId. */
 export const fightStudies: FightStudy[] = [
   {
-    id: "mike-tyson-fights",
-    title: "Mike Tyson – Knockout Pressure & Entry Destruction",
-    youtubeUrl: "https://www.youtube.com/watch?v=aJ-AUIkBX_Y",
-    thumbnailUrl: "https://img.youtube.com/vi/aJ-AUIkBX_Y/hqdefault.jpg",
+    id: "aldo-tdd-balance",
+    title: "José Aldo — Balance Before Defense",
+    youtubeUrl: "https://www.youtube.com/watch?v=thVxWrMi1U8",
+    thumbnailUrl: "https://img.youtube.com/vi/thVxWrMi1U8/hqdefault.jpg",
     keyTakeaways: [
-      "Explode forward behind head movement",
-      "Close distance violently, not gradually",
-      "Punch in short combinations, not single shots",
-      "Finish immediately when opponent freezes"
+      "Balance prevents takedowns before hands are needed",
+      "Wide base and posture stop clean entries",
+      "Defend early — don't wait for deep shots",
+      "Hands are secondary to hips and stance"
     ]
   },
   {
-    id: "wrestler-vs-striker-ufc",
-    title: "Wrestler vs Striker – UFC Pressure & Control",
-    youtubeUrl: "https://www.youtube.com/watch?v=747QmirYOIU",
-    thumbnailUrl: "https://img.youtube.com/vi/747QmirYOIU/hqdefault.jpg",
+    id: "mma-breakdown-fundamentals",
+    title: "MMA Fundamentals — Defend, Reset, Punish",
+    youtubeUrl: "https://www.youtube.com/watch?v=rmwot8oOyM4",
+    thumbnailUrl: "https://img.youtube.com/vi/rmwot8oOyM4/hqdefault.jpg",
     keyTakeaways: [
-      "Pressure forces predictable reactions",
-      "Mix levels to break striking rhythm",
-      "Control posture before advancing",
-      "Fatigue favors the fighter who dictates pace"
+      "First goal is stopping momentum, not countering",
+      "Reset posture before striking",
+      "Hands fight grips while hips stay heavy",
+      "Defense must be repeatable under fatigue"
     ]
   },
   {
-    id: "chuck-liddell-fight",
-    title: "Chuck Liddell – Counter Striking & Takedown Defense",
-    youtubeUrl: "https://www.youtube.com/watch?v=jgOfAR2AUBE",
-    thumbnailUrl: "https://img.youtube.com/vi/jgOfAR2AUBE/hqdefault.jpg",
+    id: "mma-scramble-awareness",
+    title: "Scramble Awareness — Don't Chase, Don't Freeze",
+    youtubeUrl: "https://www.youtube.com/watch?v=LDJfB9T7n7M",
+    thumbnailUrl: "https://img.youtube.com/vi/LDJfB9T7n7M/hqdefault.jpg",
     keyTakeaways: [
-      "Strong takedown defense creates striking confidence",
-      "Patience forces opponents to overextend",
-      "Explosive counters beat volume",
-      "Capitalize instantly when opponent is hurt"
+      "Scrambles favor calm fighters",
+      "Win small positions, not big moves",
+      "Stay upright whenever possible",
+      "Breathing control decides scrambles"
     ]
   },
   {
-    id: "rampage-jackson-fight",
-    title: "Rampage Jackson – Power & Pocket Violence",
-    youtubeUrl: "https://www.youtube.com/watch?v=iBkPA7Mx8Sg",
-    thumbnailUrl: "https://img.youtube.com/vi/iBkPA7Mx8Sg/hqdefault.jpg",
+    id: "aldo-fight-iq-tdd",
+    title: "José Aldo — Fight IQ vs Wrestlers",
+    youtubeUrl: "https://www.youtube.com/watch?v=K63PJBKuA4U",
+    thumbnailUrl: "https://img.youtube.com/vi/K63PJBKuA4U/hqdefault.jpg",
     keyTakeaways: [
-      "Comfort in the pocket breaks opponents",
-      "Hooks and uppercuts over wide punches",
-      "Forward pressure without panic",
-      "Mental intimidation through physical dominance"
-    ]
-  },
-  {
-    id: "dustin-poirier-fight",
-    title: "Dustin Poirier – Composure, Volume, and Durability",
-    youtubeUrl: "https://www.youtube.com/watch?v=QerSpl9y6uE",
-    thumbnailUrl: "https://img.youtube.com/vi/QerSpl9y6uE/hqdefault.jpg",
-    keyTakeaways: [
-      "Stay calm under early adversity",
-      "Build damage through volume, not rush",
-      "Body shots slow aggressive opponents",
-      "Confidence grows as pressure is absorbed"
-    ]
-  },
-  {
-    id: "jose-aldo-fight",
-    title: "José Aldo – Timing, Defense, and Fight IQ",
-    youtubeUrl: "https://www.youtube.com/watch?v=L8oht5ZNwFM",
-    thumbnailUrl: "https://img.youtube.com/vi/L8oht5ZNwFM/hqdefault.jpg",
-    keyTakeaways: [
-      "Timing beats speed and strength",
-      "Defensive responsibility before offense",
-      "Leg kicks control distance and rhythm",
-      "Calm execution wins high-pressure moments"
-    ]
-  },
-  {
-    id: "striker-vs-wrestler-blueprint",
-    title: "Striker vs Wrestler — Distance, Damage, Discipline",
-    youtubeUrl: "https://www.youtube.com/watch?v=FHp-k31llgo",
-    thumbnailUrl: "https://img.youtube.com/vi/FHp-k31llgo/hqdefault.jpg",
-    keyTakeaways: [
-      "Control distance before throwing combinations",
-      "Punish level changes with uppercuts and knees",
-      "Circle off immediately after defending shots",
-      "Damage accumulates when the wrestler fails repeatedly",
-      "Do not chase finishes — let fatigue create openings"
+      "Anticipation beats reaction",
+      "Recognize shot setups early",
+      "Force opponents to shoot tired",
+      "Smart defense preserves energy"
     ]
   }
 ];
 
-const STRIKER_VS_WRESTLER_BLUEPRINT = fightStudies.find(
-  (f) => f.id === "striker-vs-wrestler-blueprint"
-)!;
-
 /**
- * Get the fight of the day. Currently fixed to Striker vs Wrestler — Distance, Damage, Discipline.
+ * Fight of the day by schedule. First day → first fight, next day → next fight, then cycles at 12am.
  */
-export function getFightOfTheDay(_date?: Date): FightStudy {
-  return STRIKER_VS_WRESTLER_BLUEPRINT;
+export function getFightOfTheDay(date?: Date): FightStudy {
+  const d = date ?? new Date();
+  const { fightId } = getScheduleForDate(d);
+  const fight = fightStudies.find((f) => f.id === fightId);
+  return fight ?? fightStudies[0];
 }
