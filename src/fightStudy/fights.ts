@@ -1,5 +1,3 @@
-import { getScheduleForDate } from "../schedule/dailySchedule";
-
 export type FightStudy = {
   id: string;
   title: string;
@@ -8,7 +6,6 @@ export type FightStudy = {
   keyTakeaways: string[];
 };
 
-/** Fight study content by id. Schedule (dailySchedule) maps each day to a fightId. */
 export const fightStudies: FightStudy[] = [
   {
     id: "aldo-tdd-balance",
@@ -60,12 +57,8 @@ export const fightStudies: FightStudy[] = [
   }
 ];
 
-/**
- * Fight of the day by schedule. First day → first fight, next day → next fight, then cycles at 12am.
- */
-export function getFightOfTheDay(date?: Date): FightStudy {
-  const d = date ?? new Date();
-  const { fightId } = getScheduleForDate(d);
-  const fight = fightStudies.find((f) => f.id === fightId);
+/** Fight Study tab: fixed to José Aldo — Fight IQ vs Wrestlers (K63PJBKuA4U). */
+export function getFightOfTheDay(_date?: Date): FightStudy {
+  const fight = fightStudies.find((f) => f.youtubeUrl.includes("K63PJBKuA4U"));
   return fight ?? fightStudies[0];
 }

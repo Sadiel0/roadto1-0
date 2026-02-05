@@ -9,10 +9,11 @@ export type DayScheduleEntry = {
 };
 
 export const dailySchedule: DayScheduleEntry[] = [
-  { date: "04-08", fightId: "aldo-tdd-balance", mindsetId: "04-08" },
-  { date: "04-09", fightId: "mma-breakdown-fundamentals", mindsetId: "04-08" },
-  { date: "04-10", fightId: "mma-scramble-awareness", mindsetId: "04-08" },
-  { date: "04-11", fightId: "aldo-fight-iq-tdd", mindsetId: "04-08" }
+  { date: "04-08", fightId: "aldo-tdd-balance", mindsetId: "calm-under-fire" },
+  { date: "04-09", fightId: "mma-breakdown-fundamentals", mindsetId: "relentless-consistency" },
+  { date: "04-10", fightId: "mma-scramble-awareness", mindsetId: "chosen-hardship" },
+  { date: "04-11", fightId: "aldo-fight-iq-tdd", mindsetId: "spartan-law" },
+  { date: "04-12", fightId: "aldo-tdd-balance", mindsetId: "identity-lock-in" }
 ];
 
 function toDateKey(d: Date): string {

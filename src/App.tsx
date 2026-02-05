@@ -160,13 +160,13 @@ const HomeScreen: React.FC = () => {
 const DAY_KEYS = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"] as const;
 const DAY_NAME_TO_NUM: Record<string, number> = { SUNDAY: 0, MONDAY: 1, TUESDAY: 2, WEDNESDAY: 3, THURSDAY: 4, FRIDAY: 5, SATURDAY: 6 };
 
-/** When ?day=WEDNESDAY (or absent, default WEDNESDAY), return that weekday's date in the current week */
+/** When ?day=WEDNESDAY (or absent), use actual today so Workout/Mindset show current day. Use ?day= for preview. */
 function getEffectiveDate(): Date | null {
   if (typeof window === "undefined") return null;
   const dayParam = new URLSearchParams(window.location.search).get("day");
-  const dayKey = (dayParam && DAY_KEYS.includes(dayParam as any) ? dayParam : "WEDNESDAY") as string;
-  const dayNum = DAY_NAME_TO_NUM[dayKey] ?? 3;
   const today = new Date();
+  if (!dayParam || !DAY_KEYS.includes(dayParam as any)) return today;
+  const dayNum = DAY_NAME_TO_NUM[dayParam as string] ?? today.getDay();
   const startOfWeek = new Date(today);
   startOfWeek.setDate(today.getDate() - today.getDay());
   const effective = new Date(startOfWeek);
